@@ -5,13 +5,12 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@/context/UserContext'
-import { supabase } from '@/lib/supabaseClient'
 import { MobileMenuButton } from '@/components/nav/MobileMenuButton'
 import { MobileDrawer } from '@/components/nav/MobileDrawer'
 import { logout } from '@/lib/auth'
 
 export const Header = () => {
-  const { user, setUser, loading } = useUser()
+  const { user, setUser } = useUser()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -22,9 +21,12 @@ export const Header = () => {
       alert('ログアウトしました')
       setUser(null)
       router.push('/')
-    } catch (e: any) {
-      //alert(e.message || 'ログアウトに失敗しました')
-      alert('ログアウトに失敗しました')
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message || 'ログアウトに失敗しました')
+      } else {
+        alert('ログアウトに失敗しました')
+      }
     }
   }
 

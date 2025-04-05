@@ -1,10 +1,9 @@
 import js from '@eslint/js'
-import prettier from 'eslint-config-prettier'
+import prettier from 'eslint-config-prettier' //Prettierと競合するルールをOFFにしてくれる（Prettier使うなら必要）
 import typescriptPlugin from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
 import reactPlugin from 'eslint-plugin-react'
 import tailwindcss from 'eslint-plugin-tailwindcss'
-import prettierPlugin from 'eslint-plugin-prettier'
 
 export default [
   js.configs.recommended,
@@ -21,13 +20,14 @@ export default [
       '@typescript-eslint': typescriptPlugin,
       react: reactPlugin,
       tailwindcss,
-      prettier: prettierPlugin,
     },
     rules: {
       ...typescriptPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
       ...tailwindcss.configs.recommended.rules,
-      'prettier/prettier': 'warn', // prettierと統合
+
+      'react/react-in-jsx-scope': 'off', // React 17以降は不要
+      'no-undef': 'off', // TypeScriptが未定義エラーを検知してくれるので不要
     },
     settings: {
       react: {
@@ -35,5 +35,5 @@ export default [
       },
     },
   },
-  prettier, // Prettierと競合するルールを無効化
+  prettier,
 ]

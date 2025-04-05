@@ -1,0 +1,9 @@
+{
+  "editor.formatOnSave": true, // 保存時にフォーマッターを実行
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // Prettierを既定の整形ツールにする
+  "eslint.validate": ["typescript", "typescriptreact"], // ESLintも有効化しておく
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit"
+  }
+}

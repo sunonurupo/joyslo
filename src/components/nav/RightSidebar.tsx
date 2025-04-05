@@ -3,24 +3,26 @@
 
 import Link from 'next/link'
 import { useUser } from '@/context/UserContext'
-import { supabase } from '@/lib/supabaseClient'
 import { useRouter } from 'next/navigation'
 import { logout } from '@/lib/auth'
 
 export const RightSidebar = () => {
-  const { user, setUser, loading } = useUser()
+  const { user, setUser } = useUser()
   const router = useRouter()
 
-  // ログアウト処理(Header.tsxにも記載あり。UIや画面遷移は呼び出し元で処理する)
+  // ログアウト処理(UIや画面遷移は呼び出し元で処理する, Header.tsxと同じ)
   const handleLogout = async () => {
     try {
       await logout()
       alert('ログアウトしました')
       setUser(null)
       router.push('/')
-    } catch (e: any) {
-      //alert(e.message || 'ログアウトに失敗しました')
-      alert('ログアウトに失敗しました')
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message || 'ログアウトに失敗しました')
+      } else {
+        alert('ログアウトに失敗しました')
+      }
     }
   }
 
