@@ -11,21 +11,27 @@ type User = {
 
 // Context作成
 const UserContext = createContext<{
-  user: User
+  user: User | undefined
   setUser: (user: User) => void
+  loading: boolean
 }>({
-  user: null,
+  user: undefined,
   setUser: () => {},
+  loading: true,
 })
 
 // Contextを提供するProviderコンポーネント
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User>(null)
+  const [user, setUser] = useState<User | undefined>(undefined)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
       setUser(user)
+      setLoading(false)
     }
     getUser()
 
@@ -40,11 +46,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [])
 
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={{ user, setUser, loading }}>{children}</UserContext.Provider>
 }
 
 // Contextを使うためのカスタムフック

@@ -1,3 +1,4 @@
+// src/app/register/page.tsx
 'use client'
 
 import { useState } from 'react'
@@ -19,32 +20,29 @@ export default function SignUpPage() {
       alert('サインアップ失敗: ' + error.message)
     } else {
       alert('確認メールを送信しました！')
-      // 必要に応じてログインページに遷移
+      // サインアップ成功後、ログインページにリダイレクト
       router.push('/login')
     }
   }
 
   return (
-    <main className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">新規登録</h1>
+    <main className="mx-auto max-w-md p-4">
+      <h1 className="mb-4 text-2xl font-bold">新規登録</h1>
       <input
         type="email"
         placeholder="メールアドレス"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full p-2 mb-2 border rounded"
+        className="mb-2 w-full rounded border p-2"
       />
       <input
         type="password"
         placeholder="パスワード（6文字以上）"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="w-full p-2 mb-4 border rounded"
+        className="mb-4 w-full rounded border p-2"
       />
-      <button
-        onClick={handleSignUp}
-        className="w-full bg-green-500 text-white py-2 rounded"
-      >
+      <button onClick={handleSignUp} className="w-full rounded bg-green-500 py-2 text-white">
         新規登録
       </button>
     </main>
